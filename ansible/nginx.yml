@@ -1,0 +1,26 @@
+---
+- name: Deploy Nginx container using Docker
+  hosts: cluster_hosts
+  become: true 
+  vars:
+    nginx_container_name: nginx-container 
+    nginx_image: nginx:latest
+    nginx_port: 80 
+    nginx_volume: "/nginx-data" 
+
+  tasks:
+    - name: Ensure Docker service is started
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Pull Nginx image
+      command: docker pull {{ nginx_image }}
+
+    - name: Run Nginx container
+      command: "docker run -d --name {{ nginx_container_name }} -p {{ nginx_port }}:80 -p 443:443 -v {{ nginx_volume }}:/etc/nginx/ {{ nginx_image }}"
+
+    - name: Show Nginx container status
+      debug:
+        msg: "Nginx container is running: {{ container_status.state }}"
