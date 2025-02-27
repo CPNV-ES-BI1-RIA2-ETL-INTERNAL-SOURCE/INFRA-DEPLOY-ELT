@@ -25,13 +25,8 @@ The default configuration is set in `./ansible/ansible.cfg` file.
 1. Put the admin. ssh key in `~/.ssh/ria2_sysadm` (or adapt in `./ansible/ansible.cfg`)
 2. Install roles dependencies
 	1. `ansible-galaxy install -f -r requirements.yml --roles-path=./roles`
-### Setup the NAT server
+### Setup the instances
 ```bash
 cd ./ansible
-ansible-playbook -i ./cluster_hosts.ini natsrv.yml
-```
-### Setup The docker hosts
-```bash
-cd ./ansible
-ansible-playbook -i ./cluster_hosts.ini docker_host.yml
+ansible-playbook -i ./cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm
 ```
