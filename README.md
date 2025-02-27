@@ -4,6 +4,7 @@
 ![infra_v0.1](assets/infra.svg)
 
 The subnets are defined in a JSON file. Here is an example.
+
 ![example](assets/infra.json.png)
 # Usage
 ## Terraform
