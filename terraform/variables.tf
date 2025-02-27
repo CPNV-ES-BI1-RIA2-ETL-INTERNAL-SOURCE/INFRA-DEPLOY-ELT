@@ -1,15 +1,3 @@
-variable "instance_type" {
-    type        = string
-    default     = "t3.micro"
-    description = "Instance type"
-}
-
-variable "ami" {
-    type        = string
-    default     = "ami-08613ebea86dc5d60"
-    description = "AMI ID"
-}
-
 variable "vpc" {
     type        = map(string)
     default     = {
@@ -28,11 +16,24 @@ variable "dmz_subnet" {
     description = "Public subnet base information"
 }
 
+variable "natsrv_private_ip" {
+    description = "The private IP address of the NAT server"
+    type        = string
+    default     = "10.0.0.5"
+}
+
 variable "private_subnets" {
     type       = list(object({
         subnet_name = string
         cidr_block  = string
+        nbr_host    = number
     }))
+    default    = [
+        {
+            subnet_name = "Private1"
+            cidr_block  = "10.10.10.10/28"
+            nbr_host    = 1
+        }]
     description = "Private subnets base information. List in terraform.tfvars.json"
 }
 
@@ -44,15 +45,30 @@ variable "allowed_ips" {
 
 variable "igw_name" {
     type = string
+    default = "IGW"
     description = "IGW name"
 }
 
-variable "keyPairs" {
-    type       = map(string)
-    default    = {
-        ELT    = "ELT"
-        ETL    = "ETL"
-        sysadm = "sysadm" 
-    }
-    description = "Key pairs for the instances"
+variable "host_instance_type" {
+    type        = string
+    default     = "t3.micro"
+    description = "Instance type"
+}
+
+variable "host_ami" {
+    type        = string
+    default     = "ami-08613ebea86dc5d60"
+    description = "AMI ID"
+}
+
+variable "natsrv_instance_type" {
+    type        = string
+    default     = "t3.micro"
+    description = "Instance type"
+}
+
+variable "natsrv_ami" {
+    type        = string
+    default     = "ami-08613ebea86dc5d60"
+    description = "AMI ID"
 }

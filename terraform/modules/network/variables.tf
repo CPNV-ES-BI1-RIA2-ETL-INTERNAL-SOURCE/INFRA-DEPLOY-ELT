@@ -3,10 +3,16 @@ variable "dmz_subnet" {
     type        = map
 }
 
+variable natsrv_private_ip {
+    description = "The private IP address of the NAT server"
+    type        = string
+}
+
 variable "private_subnets" {
     type       = list(object({
         subnet_name = string
         cidr_block  = string
+        nbr_host    = number
     }))
     description = "Private subnets base information. List in terraform.tfvars.json"
 }

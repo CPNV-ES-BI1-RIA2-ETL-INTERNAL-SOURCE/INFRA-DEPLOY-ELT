@@ -125,7 +125,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_traffic_from_private_subne
 resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules" {
   count = length(var.private_subnets)
   security_group_id = aws_security_group.private_subnet_sg[count.index].id
-  cidr_ipv4         = "10.0.0.10/32"
+  cidr_ipv4         = "${var.natsrv_private_ip}/32"
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22

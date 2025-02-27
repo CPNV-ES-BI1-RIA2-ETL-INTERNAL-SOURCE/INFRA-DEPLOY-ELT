@@ -1,24 +1,25 @@
 variable "natsrv_instance_type" {
     type        = string
-    default     = "t3.micro"
     description = "Instance type"
 }
 
 variable "natsrv_ami" {
     type        = string
-    default     = "ami-08613ebea86dc5d60"
     description = "AMI ID"
+}
+
+variable natsrv_private_ip {
+    description = "The private IP address of the NAT server"
+    type        = string
 }
 
 variable "host_instance_type" {
     type        = string
-    default     = "t3.micro"
     description = "Instance type"
 }
 
 variable "host_ami" {
     type        = string
-    default     = "ami-08613ebea86dc5d60"
     description = "AMI ID"
 }
 
@@ -46,17 +47,19 @@ variable "private_subnet_sg_ids" {
   type = list(string)
 }
 
-variable "nbr_subnet_host" {
-    description = "Number of hosts in the cluster"
-    type        = number
-    default     = 1    
+variable "private_subnets" {
+    type       = list(object({
+        subnet_name = string
+        cidr_block  = string
+        nbr_host    = number
+    }))
+    description = "Private subnets base information. List in terraform.tfvars.json"
 }
-
 
 locals {
     subnet_hosts = flatten([
         for subnet_index, subnet in var.created_private_subnets_infos : [
-            for instance in range(var.nbr_subnet_host) : {
+            for instance in range(var.private_subnets[subnet_index]["nbr_host"]) : {
                 subnet_id = subnet.id
                 subnet_name= subnet.name
                 vm_index = instance + 1

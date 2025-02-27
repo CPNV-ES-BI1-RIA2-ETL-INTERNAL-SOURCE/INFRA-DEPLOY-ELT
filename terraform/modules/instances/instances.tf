@@ -3,7 +3,7 @@ resource "aws_instance" "NatSrv" {
     instance_type = var.natsrv_instance_type
     subnet_id     = var.dmz_subnet_id
     associate_public_ip_address = true
-    private_ip    = "10.0.0.10"
+    private_ip    = var.natsrv_private_ip
 
     tags = {
         Name = "NatSrv"
