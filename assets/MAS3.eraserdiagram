@@ -13,13 +13,17 @@ AWS-VPC [icon: aws-vpc, color: blue, label: "AWS VPC - 10.0.0.0/16"]{
 
   sub1[icon: aws-vpc-router, label: "private_subnet - 10.0.x.0/28"]{
     host-etl[icon: virtual-machine, label: "VPS-x"]{
-      docker-etl[icon: docker, label: "Docker Engine"]
+      docker-etl[icon: docker, label: "Docker Engine"]{
+        nginx-ct1[icon: nginx, label: "Nginx"]
+      }
     }
   }
 
   sub2[icon: aws-vpc-router, label: "private_subnet - 10.0.x.0/28"]{
     host-elt[icon: virtual-machine, label: "VPS-x"]{
-      docker-elt[icon: docker, label: "Docker Engine"]
+      docker-elt[icon: docker, label: "Docker Engine"]{
+        nginx-ct2[icon: nginx, label: "Nginx"]
+      }
     }
   }
 }
