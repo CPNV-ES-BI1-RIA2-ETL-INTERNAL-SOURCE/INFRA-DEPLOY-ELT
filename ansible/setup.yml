@@ -1,0 +1,16 @@
+---
+- name: Setup newly created instances
+  become: yes
+  hosts: all
+  tasks:
+    - name: Seting up the NAT server
+      include_tasks: nat.yml
+      when: "'nat_servers' in group_names"
+
+    - name: Installing docker on the cluster servers
+      include_tasks: docker.yml
+      when: "'cluster_hosts' in group_names"
+
+    - name: Running Nginx on the servers
+      include_tasks: nginx.yml
+      when: "'cluster_hosts' in group_names"  
