@@ -104,7 +104,7 @@ resource "aws_security_group" "private_subnet_sg" {
 }
 
 # Security group rules
-resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules" {
+resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_ssh" {
   count = length(var.allowed_ips)
   security_group_id = aws_security_group.dmz_subnet_sg.id
   cidr_ipv4         = var.allowed_ips[count.index]
@@ -112,6 +112,16 @@ resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules" {
   ip_protocol       = "tcp"
   to_port           = 22
   description       = "SSH access from allowed IPs"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_http" {
+  count = length(var.allowed_ips)
+  security_group_id = aws_security_group.dmz_subnet_sg.id
+  cidr_ipv4         = var.allowed_ips[count.index]
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+  description       = "HTTP access from allowed IPs"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_traffic_from_private_subnets" {
@@ -122,13 +132,23 @@ resource "aws_vpc_security_group_ingress_rule" "allow_traffic_from_private_subne
   description       = "Access from private subnets"
 }
 
-resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules" {
+resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_ssh" {
   count = length(var.private_subnets)
   security_group_id = aws_security_group.private_subnet_sg[count.index].id
   cidr_ipv4         = "${var.natsrv_private_ip}/32"
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
+  description       = "SSH access from the nat server"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_http" {
+  count = length(var.private_subnets)
+  security_group_id = aws_security_group.private_subnet_sg[count.index].id
+  cidr_ipv4         = "${var.natsrv_private_ip}/32"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
   description       = "SSH access from the nat server"
 }
 
