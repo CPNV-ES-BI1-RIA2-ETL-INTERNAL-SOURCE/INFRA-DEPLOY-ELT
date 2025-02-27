@@ -35,6 +35,4 @@
         executable: /bin/bash
   
     - name: Save iptables rules
-      command: iptables-save > /etc/iptables/rules.v4
-      args:
-        executable: /bin/bash
+      shell: iptables-save > /etc/iptables/rules.v4
