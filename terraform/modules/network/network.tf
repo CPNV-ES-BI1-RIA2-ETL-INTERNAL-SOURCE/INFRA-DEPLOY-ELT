@@ -205,12 +205,21 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 
 # DNS records
 resource "aws_route53_record" "nat_dns_entries" {
-  count = length(var.private_subnets)
+  count = length(local.dns_entries)
   zone_id = data.aws_route53_zone.zone.zone_id
-  name    = "${var.private_subnets[count.index]["subnet_name"]}.${var.route53_tld}"
+  name    = local.dns_entries[count.index]["dns_entry"]
   type    = "A"
   ttl     = "300"
   records = [aws_eip.elastic_ip.public_ip]
 
   depends_on = [aws_eip.elastic_ip]
+}
+
+resource "local_file" "dns_entries" {
+  filename = "${path.module}/../../../ansible/dns_entries.yml"
+  content = yamlencode({
+    dns_entries   = local.dns_entries
+  })
+
+  depends_on = [aws_route53_record.nat_dns_entries] 
 }

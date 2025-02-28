@@ -41,3 +41,12 @@ variable "route53_tld" {
     type = string
     description = "The top-level domain for the Route 53 hosted zone"
 }
+
+locals {
+    dns_entries = flatten([
+        for subnet in var.private_subnets : {
+            subnet_name = subnet.subnet_name
+            dns_entry = lower("${subnet.subnet_name}.${var.route53_tld}")
+        }
+    ])
+}
