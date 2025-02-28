@@ -80,6 +80,18 @@ resource "aws_route_table" "private_subnet_routes" {
   }
 }
 
+# Elastic IP for the NAT server
+resource "aws_eip" "elastic_ip" {
+  network_interface = var.NatSrv_primary_network_interface_id
+  domain   = "vpc"
+
+  tags = {
+    Name = "NAT-IP"
+  }
+
+  depends_on = [var.NatSrv_primary_network_interface_id, aws_internet_gateway.igw]
+}
+
 # DMZ security group
 resource "aws_security_group" "dmz_subnet_sg" {
   name        = "${var.dmz_subnet["subnet_name"]}-sg"

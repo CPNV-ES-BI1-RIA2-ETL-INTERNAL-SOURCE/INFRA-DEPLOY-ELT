@@ -2,7 +2,6 @@ resource "aws_instance" "NatSrv" {
     ami           = var.natsrv_ami
     instance_type = var.natsrv_instance_type
     subnet_id     = var.dmz_subnet_id
-    associate_public_ip_address = true
     private_ip    = var.natsrv_private_ip
 
     tags = {
