@@ -47,6 +47,7 @@ locals {
         for subnet in var.private_subnets : {
             subnet_name = subnet.subnet_name
             dns_entry = lower("${subnet.subnet_name}.${var.route53_tld}")
+            redirect_ip = cidrhost(subnet["cidr_block"], 5)
         }
     ])
 }
