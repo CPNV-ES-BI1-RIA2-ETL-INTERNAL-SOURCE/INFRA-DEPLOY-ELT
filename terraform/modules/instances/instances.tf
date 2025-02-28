@@ -36,6 +36,9 @@ resource "local_file" "ansible_inventory" {
   filename = "${path.module}/../../../ansible/cluster_hosts.ini"
   content = templatefile("${path.module}/inventory.tpl", {
     nat_instance    = aws_instance.NatSrv
+    nat_dns_entries = var.nat_dns_entries
     cluster_hosts   = [for i in range(length(aws_instance.cluster_host)) : aws_instance.cluster_host[i]]
   })
+
+  depends_on = [aws_instance.NatSrv, aws_instance.cluster_host, var.nat_dns_entries]
 }

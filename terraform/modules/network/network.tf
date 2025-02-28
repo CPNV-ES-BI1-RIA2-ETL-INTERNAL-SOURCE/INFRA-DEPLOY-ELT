@@ -202,3 +202,15 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 
   depends_on = [aws_security_group.dmz_subnet_sg, var.NatSrv_primary_network_interface_id]
 }
+
+# DNS records
+resource "aws_route53_record" "nat_dns_entries" {
+  count = length(var.private_subnets)
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.private_subnets[count.index]["subnet_name"]}.${var.route53_tld}"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.elastic_ip.public_ip]
+
+  depends_on = [aws_eip.elastic_ip]
+}

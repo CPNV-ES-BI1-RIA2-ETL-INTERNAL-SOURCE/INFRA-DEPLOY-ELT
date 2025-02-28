@@ -72,3 +72,9 @@ variable "natsrv_ami" {
     default     = "ami-08613ebea86dc5d60"
     description = "AMI ID"
 }
+
+variable "route53_tld" {
+    type        = string
+    default     = "cld.education"
+    description = "The top-level domain for the Route 53 hosted zone"
+}

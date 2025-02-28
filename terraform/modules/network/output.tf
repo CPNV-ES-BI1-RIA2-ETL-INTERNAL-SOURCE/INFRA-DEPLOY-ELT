@@ -33,3 +33,7 @@ output "private_subnet_sg_ids" {
 output "public_ip" {
   value = aws_eip.elastic_ip.public_ip
 }
+
+output "nat_dns_entries" {
+  value = [ for record in aws_route53_record.nat_dns_entries : record.name ]
+}

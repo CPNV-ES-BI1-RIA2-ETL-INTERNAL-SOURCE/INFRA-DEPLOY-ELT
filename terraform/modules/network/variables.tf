@@ -36,3 +36,8 @@ variable "NatSrv_primary_network_interface_id" {
     type = string
     description = "The ID of the primary network interface of the NAT server"
 }
+
+variable "route53_tld" {
+    type = string
+    description = "The top-level domain for the Route 53 hosted zone"
+}
