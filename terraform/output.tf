@@ -3,5 +3,5 @@ output "vpc_id" {
 }
 
 output "public_ip" {
-  value       = module.instances.public_ip
+  value       = module.network.public_ip
 }

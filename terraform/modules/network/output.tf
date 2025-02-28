@@ -29,3 +29,7 @@ output "private_subnet_route_ids" {
 output "private_subnet_sg_ids" {
   value = [ for sg in aws_security_group.private_subnet_sg : sg.id]
 }
+
+output "public_ip" {
+  value = aws_eip.elastic_ip.public_ip
+}
