@@ -26,6 +26,13 @@ The default configuration is set in `./ansible/ansible.cfg` file.
 2. Install roles dependencies
 	1. `ansible-galaxy install -f -r requirements.yml --roles-path=./roles`
 ### Setup the instances
+This will automatically :
+- Setup the NAT server (IPv4 forward)
+- Install docker on every subnets instances
+- Run a basic nginx container on the first instance of every subnets
+- Create a virtual host with the subnet's FQDN created by terraform to redirect to their first host
+- Setup SSL certificate with certbot
+
 ```bash
 cd ./ansible
 ansible-playbook -i ./cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm
