@@ -8,6 +8,7 @@ module "network" {
   allowed_ips = var.allowed_ips
   natsrv_private_ip = var.natsrv_private_ip
   NatSrv_primary_network_interface_id = module.instances.NatSrv_primary_network_interface_id
+  route53_tld = var.route53_tld
 }
 
 module "instances" {
@@ -22,4 +23,5 @@ module "instances" {
   natsrv_ami = var.natsrv_ami
   host_instance_type = var.host_instance_type
   host_ami = var.host_ami
+  nat_dns_entries = module.network.nat_dns_entries
 }

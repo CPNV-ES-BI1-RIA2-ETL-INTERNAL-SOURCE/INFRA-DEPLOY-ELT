@@ -56,6 +56,11 @@ variable "private_subnets" {
     description = "Private subnets base information. List in terraform.tfvars.json"
 }
 
+variable "nat_dns_entries" { 
+    description = "List of NAT DNS entries"
+    type = list(string)
+}
+
 locals {
     subnet_hosts = flatten([
         for subnet_index, subnet in var.created_private_subnets_infos : [
