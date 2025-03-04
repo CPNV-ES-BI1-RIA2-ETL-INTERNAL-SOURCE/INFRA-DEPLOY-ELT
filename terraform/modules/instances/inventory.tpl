@@ -1,5 +1,5 @@
 [nat_servers]
-${nat_instance.tags.Name} ansible_host=${nat_dns_entries[0]}
+${nat_instance.tags.Name} ansible_host=${nat_dns_entries[0]} ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_ssh_private_key_file='~/.ssh/ria2_sysadm'
 
 [cluster_hosts]
 %{ for host in cluster_hosts ~}
