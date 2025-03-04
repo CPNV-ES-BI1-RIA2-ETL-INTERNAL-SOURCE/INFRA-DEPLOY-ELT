@@ -37,3 +37,7 @@ output "public_ip" {
 output "nat_dns_entries" {
   value = [ for record in aws_route53_record.nat_dns_entries : record.name ]
 }
+
+output "natsrv_private_ip" {
+  value = local.natsrv_private_ip
+}

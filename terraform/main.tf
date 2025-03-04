@@ -6,7 +6,6 @@ module "network" {
   vpc = var.vpc
   igw_name = var.igw_name
   allowed_ips = var.allowed_ips
-  natsrv_private_ip = var.natsrv_private_ip
   NatSrv_primary_network_interface_id = module.instances.NatSrv_primary_network_interface_id
   route53_tld = var.route53_tld
 }
@@ -14,7 +13,7 @@ module "network" {
 module "instances" {
   source = "./modules/instances"
   private_subnets = var.private_subnets
-  natsrv_private_ip = var.natsrv_private_ip
+  natsrv_private_ip = module.network.natsrv_private_ip
   vpc_id = module.network.vpc_id
   dmz_subnet_id = module.network.dmz_subnet_id
   created_private_subnets_infos = module.network.created_private_subnets_infos

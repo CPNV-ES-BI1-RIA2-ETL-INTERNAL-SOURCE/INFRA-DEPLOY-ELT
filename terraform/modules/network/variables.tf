@@ -3,11 +3,6 @@ variable "dmz_subnet" {
     type        = map
 }
 
-variable natsrv_private_ip {
-    description = "The private IP address of the NAT server"
-    type        = string
-}
-
 variable "private_subnets" {
     type       = list(object({
         subnet_name = string
@@ -50,4 +45,8 @@ locals {
             redirect_ip = cidrhost(subnet["cidr_block"], 5)
         }
     ])
+}
+
+locals {
+    natsrv_private_ip = cidrhost(var.dmz_subnet["cidr_block"], -2)
 }
