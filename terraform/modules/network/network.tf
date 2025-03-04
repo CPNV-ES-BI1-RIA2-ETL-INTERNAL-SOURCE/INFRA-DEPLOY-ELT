@@ -149,7 +149,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_traffic_from_private_subne
   security_group_id = aws_security_group.dmz_subnet_sg.id
   cidr_ipv4         = var.private_subnets[count.index]["cidr_block"]
   ip_protocol       = "-1"
-  description       = "Access from private subnets"
+  description       = "Access from ${var.private_subnets[count.index]["subnet_name"]} subnet"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_ssh" {
