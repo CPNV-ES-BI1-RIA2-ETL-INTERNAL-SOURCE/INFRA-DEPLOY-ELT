@@ -5,7 +5,6 @@
 
 The subnets are defined in a JSON file. Here is an example.
 
-![example](assets/infra.json.png)
 # Usage
 ## Terraform
 >*Version used : [v1.10.2](https://releases.hashicorp.com/terraform/1.10.2/)*
