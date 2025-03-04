@@ -1,0 +1,41 @@
+---
+- include_vars: dns_entries.yml
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Install snap
+  apt:
+    name: snapd
+    state: present
+    update_cache: yes
+
+- name: Install certbot
+  command: snap install --classic certbot
+
+- name: Prepare certbot command
+  command: 
+    cmd: ln -s /snap/bin/certbot /usr/bin/certbot
+    creates: /usr/bin/certbot
+
+- name: Configure virtual host
+  template:
+    src: templates/vhost.conf.j2
+    dest: /etc/nginx/sites-available/{{ item.dns_entry }}
+  with_items: "{{ dns_entries }}"
+
+- name: Enable virtual hosts
+  file:
+    src: "/etc/nginx/sites-available/{{ item.dns_entry }}"
+    dest: "/etc/nginx/sites-enabled/{{ item.dns_entry }}"
+    state: link
+  with_items: "{{ dns_entries }}"
+
+
+- name: Install certificate with certbot
+  command: certbot --nginx -d {{ item.dns_entry }} --non-interactive --agree-tos --email yann.fanha@eduvaud.ch
+  with_items: "{{ dns_entries }}"
+  

@@ -1,14 +1,9 @@
 server {
-    listen {{ listen_port }};
-    server_name {{ vhost_name }};
-
-    root {{ document_root }};
-    index index.html index.htm;
-
-    access_log /var/log/nginx/{{ vhost_name }}.access.log;
-    error_log /var/log/nginx/{{ vhost_name }}.error.log;
-
+    listen 80;
+    listen [::]:80;
+    server_name {{ item.dns_entry }};
+    access_log /var/log/nginx/{{ item.dns_entry }}.log;
     location / {
-        try_files $uri $uri/ =404;
+            proxy_pass       http://{{ item.redirect_ip }}:80;
     }
 }

@@ -1,18 +1,25 @@
 cloud-architecture-diagram
 title MAS3-BI1-RIA2
 
-WAN[icon: cloud, color: red]
+WAN[icon: cloud, color: red]{
+  CPNV[icon: school, color: green, label: "CPNV"]
+  everywhere[icon: home, color: green, label: "0.0.0.0/0"]
+}
 
 AWS-VPC [icon: aws-vpc, color: blue, label: "AWS VPC - 10.0.0.0/16"]{
   DMZ[icon: unlock, color: black, label: "DMZ"]{
     NatSrv[icon: virtual-machine, color: black]{
       // firewall [icon: firewall, color: black]
-      NAT [icon: aws-nat-gateway, color: black]
+      NAT [icon: aws-nat-gateway]
+      ReverseProxy [icon: nginx, color: black]{
+        vhost1 [icon: file,label: "fqdn"]
+        vhost2 [icon: file,label: "fqdn"]
+      }
     }
   }
 
   sub1[icon: aws-vpc-router, label: "private_subnet - 10.0.x.0/28"]{
-    host-etl[icon: virtual-machine, label: "VPS-x"]{
+    host-sub1[icon: virtual-machine, label: "VPS-x"]{
       docker-etl[icon: docker, label: "Docker Engine"]{
         nginx-ct1[icon: nginx, label: "Nginx"]
       }
@@ -20,7 +27,7 @@ AWS-VPC [icon: aws-vpc, color: blue, label: "AWS VPC - 10.0.0.0/16"]{
   }
 
   sub2[icon: aws-vpc-router, label: "private_subnet - 10.0.x.0/28"]{
-    host-elt[icon: virtual-machine, label: "VPS-x"]{
+    host-sub2[icon: virtual-machine, label: "VPS-x"]{
       docker-elt[icon: docker, label: "Docker Engine"]{
         nginx-ct2[icon: nginx, label: "Nginx"]
       }
@@ -28,5 +35,8 @@ AWS-VPC [icon: aws-vpc, color: blue, label: "AWS VPC - 10.0.0.0/16"]{
   }
 }
 
-WAN -- NatSrv: ">>22,80"
-NatSrv -- sub1, sub2: ">>22,80"
+CPNV -- NatSrv: ">>22"
+everywhere -- NatSrv: ">>80,443"
+NatSrv -- sub1, sub2: ">>22"
+ReverseProxy -> host-sub1: ">>80"
+ReverseProxy -> host-sub2: ">>80"
