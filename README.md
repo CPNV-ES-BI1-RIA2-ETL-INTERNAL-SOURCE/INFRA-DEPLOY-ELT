@@ -13,7 +13,7 @@
 
 1. Configure your AWS in ~/.aws/config & ~/.aws/credentials under a profile named "RIA2"
 	1. OR => Change the profile name in terraform/version.tf
-2. Create your `terraform.tfvars.json` file (look at the example above)
+2. Create your `terraform.tfvars.json` file (from the example)
 3. Run the terraform
 ```
 terraform init
