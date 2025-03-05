@@ -2,9 +2,11 @@
 
 ## Infrastructure schema
 ![infra_v0.1](assets/infra.svg)
-
-The subnets are defined in a JSON file. Here is an example.
-
+# Prerequisites
+- AWS permissions
+	- Creating and managing Virtual Private Cloud
+	- Creating and managing EC2 instances
+	- Creating and managing a Route53 domain
 # Usage
 ## Terraform
 >*Version used : [v1.10.2](https://releases.hashicorp.com/terraform/1.10.2/)*
