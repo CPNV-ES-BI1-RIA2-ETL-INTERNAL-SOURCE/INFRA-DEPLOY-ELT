@@ -169,7 +169,17 @@ resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_ht
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
-  description       = "SSH access from the nat server"
+  description       = "HTTP access from the nat server (reverse proxy)"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_https" {
+  count = length(var.private_subnets)
+  security_group_id = aws_security_group.private_subnet_sg[count.index].id
+  cidr_ipv4         = "${local.natsrv_private_ip}/32"
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
+  description       = "HTTPS access from the nat server (reverse proxy)"
 }
 
 resource "aws_vpc_security_group_egress_rule" "dmz_egress_rules" {
