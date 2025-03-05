@@ -1,6 +1,7 @@
 # INFRA-DEPLOY
 
 ## Infrastructure schema
+Network-specific configuration (such as security group rules, route tables, etc.) is available here : [Network configuration (wiki)](https://github.com/CPNV-ES-BI1-RIA2-ETL-INTERNAL-SOURCE/INFRA-DEPLOY-ELT/wiki/Network-configuration)
 ![infra_v0.1](assets/infra.svg)
 # Prerequisites
 - AWS permissions
