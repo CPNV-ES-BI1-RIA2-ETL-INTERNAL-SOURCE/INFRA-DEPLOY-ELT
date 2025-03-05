@@ -4,9 +4,9 @@
 ![infra_v0.1](assets/infra.svg)
 # Prerequisites
 - AWS permissions
-	- Creating and managing Virtual Private Cloud
-	- Creating and managing EC2 instances
-	- Creating and managing a Route53 domain
+	- Creating, updating and deleting Virtual Private Cloud
+	- Creating, updating and deleting EC2 instances
+	- Creating, updating and deleting subdomains on Route53 domain
 # Usage
 ## Terraform
 >*Version used : [v1.10.2](https://releases.hashicorp.com/terraform/1.10.2/)*
