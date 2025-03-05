@@ -1,0 +1,31 @@
+{
+    "private_subnets": [
+        {
+            "subnet_name": "sub1",
+            "cidr_block": "10.0.1.0/28",
+            "nbr_host": 1
+        },
+        {
+            "subnet_name": "sub2",
+            "cidr_block": "10.0.2.0/28",
+            "nbr_host": 4
+        }
+    ],
+    "dmz_subnet": {
+        "subnet_name": "DMZ",
+        "cidr_block": "10.0.255.240/28"
+    },
+    "vpc": {
+        "name": "MY-VPC",
+        "cidr_block": "10.0.0.0/16"
+    },
+    "igw_name": "MY-IGW",
+    "allowed_ips": [
+        "0.0.0.0/0"
+    ],
+    "host_instance_type": "t3.micro",
+    "natsrv_instance_type": "t3.micro",
+    "host_ami" : "ami-08613ebea86dc5d60",
+    "natsrv_ami": "ami-08613ebea86dc5d60",
+    "route53_tld": "example.com"
+}
