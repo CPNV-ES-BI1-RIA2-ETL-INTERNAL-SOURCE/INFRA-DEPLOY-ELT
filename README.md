@@ -21,7 +21,7 @@ terraform init
 terraform apply
 ```
 ## Ansible
-> Version used : [ansible core 2.14.16](https://docs.ansible.com/ansible/latest/roadmap/ROADMAP_2_14.html), [python 3.11.2](https://www.python.org/downloads/release/python-3112/)
+> Version used : [ansible core 2.14.16](https://docs.ansible.com/ansible/latest/roadmap/ROADMAP_2_14.html), [python 3.11.2](https://www.python.org/downloads/release/python-3112/) <br>
 > WSL : Debian 12 (bookworm)
 
 *As a Windows user, I'm using WSL (Debian 12) to run ansible playbook*
