@@ -1,8 +1,8 @@
 resource "aws_vpc" "main_vpc" {
-  cidr_block = var.vpc["cidr_block"]
+  cidr_block = local.vpc["cidr_block"]
 
   tags = {
-    Name = var.vpc["name"]
+    Name = local.vpc["name"]
   }
 }
 
@@ -64,7 +64,7 @@ resource "aws_route_table" "private_subnet_routes" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
-    cidr_block = var.vpc["cidr_block"]
+    cidr_block = local.vpc["cidr_block"]
     gateway_id = "local"
   }
 

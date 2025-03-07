@@ -12,6 +12,12 @@ variable "private_subnets" {
     description = "Private subnets base information. List in terraform.tfvars.json"
 }
 
+variable "environment" {
+    type        = string
+    default     = "dev"
+    description = "Environment"
+}
+
 variable "igw_name" {
     type = string
     description = "IGW name"
@@ -41,10 +47,17 @@ locals {
     dns_entries = flatten([
         for subnet in var.private_subnets : {
             subnet_name = subnet.subnet_name
-            dns_entry = lower("${subnet.subnet_name}.${var.route53_tld}")
+            dns_entry = lower("${subnet.subnet_name}.${var.environment}.${var.route53_tld}")
             redirect_ip = cidrhost(subnet["cidr_block"], 5)
         }
     ])
+}
+
+locals {
+    vpc = {
+        name = "${var.vpc["name"]}-${var.environment}"
+        cidr_block = var.vpc["cidr_block"]
+    }
 }
 
 locals {

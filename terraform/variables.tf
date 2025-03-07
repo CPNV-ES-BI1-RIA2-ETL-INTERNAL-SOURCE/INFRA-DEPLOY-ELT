@@ -78,3 +78,9 @@ variable "route53_tld" {
     default     = "cld.education"
     description = "The top-level domain for the Route 53 hosted zone"
 }
+
+variable "environment" {
+    type        = string
+    default     = "dev"
+    description = "Environment"
+}
