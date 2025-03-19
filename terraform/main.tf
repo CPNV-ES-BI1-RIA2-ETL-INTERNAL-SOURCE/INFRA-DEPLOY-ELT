@@ -24,6 +24,7 @@ module "instances" {
   host_instance_type = var.host_instance_type
   host_ami = var.host_ami
   nat_dns_entries = module.network.nat_dns_entries
+  key_pairs_id = module.ssh-key-pairs.key_pairs_id
 }
 
 module "ssh-key-pairs" {

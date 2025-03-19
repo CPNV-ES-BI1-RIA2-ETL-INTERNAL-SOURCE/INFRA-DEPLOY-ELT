@@ -29,6 +29,7 @@ resource "aws_instance" "cluster_host" {
     vpc_security_group_ids = [local.subnet_hosts[count.index].instance_sg_id]
 
     key_name = "${local.subnet_hosts[count.index].subnet_name}-${var.environment}"
+    depends_on = [var.key_pairs_id]
 }
 
 

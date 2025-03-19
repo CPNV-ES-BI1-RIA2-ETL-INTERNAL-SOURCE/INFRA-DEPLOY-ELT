@@ -66,6 +66,10 @@ variable "nat_dns_entries" {
     type = list(string)
 }
 
+variable "key_pairs_id" {
+    type = list(string)
+}
+
 locals {
     subnet_hosts = flatten([
         for subnet_index, subnet in var.created_private_subnets_infos : [
