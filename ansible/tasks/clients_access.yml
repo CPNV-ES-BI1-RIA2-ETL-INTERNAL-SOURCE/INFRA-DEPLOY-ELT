@@ -4,7 +4,7 @@
     name: "{{ item.name }}"
     shell: /bin/bash
     append: yes
-  loop: "{{ users }}"
+  loop: "{{ clients }}"
 
 - name: Create .ssh directory if it doesn't exist
   file:
@@ -17,5 +17,4 @@
     path: "~/.ssh/authorized_keys"
     line: "{{ item.ssh_key }}"
     create: yes
-  loop:
-    - { ssh_key: "ssh-rsa AAAAB3...your_ssh_key_here" }
+  loop: "{{ clients }}"
