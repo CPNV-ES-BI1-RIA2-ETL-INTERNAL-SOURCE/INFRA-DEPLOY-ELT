@@ -3,18 +3,16 @@
   become: yes
   hosts: all
   tasks:
-    - name: Seting up the NAT server
-      include_tasks: tasks/nat.yml
+    - name: Setting up NAT server
+      block:
+        - include_tasks: tasks/nat.yml
+        - include_tasks: tasks/vhosts.yml
+        - include_tasks: tasks/clients_access.yml
       when: "'nat_servers' in group_names"
 
-    - name: Installing docker on the cluster servers
-      include_tasks: tasks/docker.yml
+      
+    - name: Setting up the cluster servers
+      block:
+        - include_tasks: tasks/docker.yml
+        - include_tasks: tasks/nginx.yml
       when: "'cluster_hosts' in group_names"
-
-    - name: Running Nginx on the servers
-      include_tasks: tasks/nginx.yml
-      when: "'cluster_hosts' in group_names"  
-
-    - name: Creating vhosts on NAT
-      include_tasks: tasks/vhosts.yml
-      when: "'nat_servers' in group_names"

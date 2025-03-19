@@ -2,3 +2,4 @@ roles
 test
 cluster_hosts.ini
 dns_entries.yml
+vars
