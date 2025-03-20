@@ -9,7 +9,3 @@ output "key_pairs" {
   sensitive = true
   description = "List of SSH key details including key name, public key, and private key"
 }
-
-output "key_pairs_id" {
-  value = aws_key_pair.clients_sshkey[*].id
-}

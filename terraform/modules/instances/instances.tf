@@ -28,8 +28,13 @@ resource "aws_instance" "cluster_host" {
 
     vpc_security_group_ids = [local.subnet_hosts[count.index].instance_sg_id]
 
-    key_name = "${local.subnet_hosts[count.index].subnet_name}-${var.environment}"
-    depends_on = [var.key_pairs_id]
+    key_name = "ria2_sysadm"
+
+    user_data = templatefile("${path.module}/access.sh", {
+      client_key = var.key_pairs[count.index].public_key
+    })
+
+    depends_on = [var.key_pairs]
 }
 
 

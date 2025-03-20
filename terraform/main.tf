@@ -24,10 +24,11 @@ module "instances" {
   host_instance_type = var.host_instance_type
   host_ami = var.host_ami
   nat_dns_entries = module.network.nat_dns_entries
-  key_pairs_id = module.ssh-key-pairs.key_pairs_id
+  key_pairs = module.ssh-key-pairs.key_pairs
 }
 
+// output key pairs (key_name, public_key and private_key)
 module "ssh-key-pairs" {
   source = "./modules/ssh-key-pairs"
-  sshkey_list = [ for subnet in var.private_subnets : "${subnet.subnet_name}-${var.environment}"]
+  sshkey_list = [ for subnet in var.private_subnets : "${subnet.subnet_name}-${var.environment}"] // List of string that will be our key name
 }

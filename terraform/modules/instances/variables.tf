@@ -66,8 +66,13 @@ variable "nat_dns_entries" {
     type = list(string)
 }
 
-variable "key_pairs_id" {
-    type = list(string)
+variable "key_pairs" {
+  description = "List of SSH key pairs"
+  type = list(object({
+    key_name = string
+    public_key = string
+    private_key = string
+  }))
 }
 
 locals {
