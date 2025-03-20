@@ -1,1 +1,1 @@
-ssh -i ${ssh_key} admin@10.0.1.5 -J ${client_name}@${public_fqdn}
+ssh admin@10.0.1.5 -o ProxyCommand="ssh -q -W %h:%p ${client_name}@${public_fqdn} -i ${ssh_key}" -i ${ssh_key}
