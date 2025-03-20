@@ -11,7 +11,7 @@ resource "aws_key_pair" "clients_sshkey" {
 
 resource "local_file" "ssh_private_key" {
   count    = length(var.sshkey_list)
-  filename = "${path.module}/../../${var.sshkey_list[count.index]}"
+  filename = "${path.module}/../../export/${var.sshkey_list[count.index]}/${var.sshkey_list[count.index]}"
   content  = tls_private_key.ssh_key_pairs[count.index].private_key_openssh
 }
 

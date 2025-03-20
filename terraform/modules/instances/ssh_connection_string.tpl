@@ -1,0 +1,1 @@
+ssh -i ${ssh_key} admin@10.0.1.5 -J ${client_name}@${public_fqdn}
