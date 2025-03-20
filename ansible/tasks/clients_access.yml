@@ -4,9 +4,8 @@
     name: "{{ item.name }}"
     shell: /bin/bash
     append: yes
-  loop: "{{ clients }}"
-
-- name: Create .ssh directory if it doesn't exist
+  
+- name: Make sure ssh exists
   file:
     path: "/home/{{ item.name }}/.ssh"
     state: directory
@@ -14,7 +13,6 @@
 
 - name: Add SSH key to authorized_keys file
   lineinfile:
-    path: "~/.ssh/authorized_keys"
+    path: "/home/{{ item.name }}/.ssh/authorized_keys"
     line: "{{ item.ssh_key }}"
     create: yes
-  loop: "{{ clients }}"

@@ -5,9 +5,11 @@
   tasks:
     - name: Setting up NAT server
       block:
+        - include_vars: vars/clients.yml
         - include_tasks: tasks/nat.yml
         - include_tasks: tasks/vhosts.yml
         - include_tasks: tasks/clients_access.yml
+          loop: "{{ clients }}"
       when: "'nat_servers' in group_names"
 
       
