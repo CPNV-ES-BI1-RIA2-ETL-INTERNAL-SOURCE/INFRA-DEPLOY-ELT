@@ -8,6 +8,7 @@ Network-specific configuration (such as security group rules, route tables, etc.
 	- Creating, updating and deleting Virtual Private Cloud
 	- Creating, updating and deleting EC2 instances
 	- Creating, updating and deleting subdomains on Route53 domain
+	- Creating SSH key pair
 # Usage
 ## Terraform
 >*Version used : [v1.10.2](https://releases.hashicorp.com/terraform/1.10.2/)*
@@ -17,8 +18,10 @@ Network-specific configuration (such as security group rules, route tables, etc.
 2. Create your `terraform.tfvars.json` file (from the example)
 3. Run the terraform
 ```
+terraform workspace new <workspace_name>
+terraform workspace select <workspace_name>
 terraform init
-terraform apply -var="environment=dev"
+terraform apply
 ```
 The `environment` is use to separate the env. dev, prod, and integration (for example). It will add the value to the VPC name. The default value is `dev`.
 ## Ansible
@@ -41,5 +44,5 @@ This will automatically :
 
 ```bash
 cd ./ansible
-ansible-playbook -i ./cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm
+ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm --extra-vars "env=<Terraform environment> git_token=***"
 ```
