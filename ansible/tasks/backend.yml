@@ -1,0 +1,32 @@
+---
+- set_fact:
+    repository: git@github.com:R0kkxSynetique/RIA2-FULL-COMPOSE.git
+    
+- name: Ensure Docker service is started
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Ensure Git is installed
+  ansible.builtin.apt:
+    name: git
+    state: present
+
+- name: Create app directory
+  file:
+    path: "/app"
+    state: directory
+    mode: '0777'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Clone the repository
+  git:
+    repo: "https://{{ git_token }}@github.com/R0kkxSynetique/RIA2-FULL-COMPOSE.git"
+    dest: "/app"
+
+- name: Start Docker Compose
+  command: docker compose -f docker-compose.prod.yml up -d
+  args:
+    chdir: /app

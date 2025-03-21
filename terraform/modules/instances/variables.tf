@@ -33,6 +33,11 @@ variable "dmz_subnet_id" {
     type        = string
 }
 
+variable "environment" {
+    type        = string
+    description = "Environment"
+}
+
 variable "created_private_subnets_infos" {
   description = "List of private subnet IDs and naaaames"
   type = list(object({
@@ -59,6 +64,15 @@ variable "private_subnets" {
 variable "nat_dns_entries" { 
     description = "List of NAT DNS entries"
     type = list(string)
+}
+
+variable "key_pairs" {
+  description = "List of SSH key pairs"
+  type = list(object({
+    key_name = string
+    public_key = string
+    private_key = string
+  }))
 }
 
 locals {

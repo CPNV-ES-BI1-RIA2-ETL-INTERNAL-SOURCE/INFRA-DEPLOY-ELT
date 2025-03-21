@@ -29,8 +29,13 @@ resource "aws_instance" "cluster_host" {
     vpc_security_group_ids = [local.subnet_hosts[count.index].instance_sg_id]
 
     key_name = "ria2_sysadm"
-}
 
+    user_data = templatefile("${path.module}/access.sh", {
+      client_key = var.key_pairs[count.index].public_key
+    })
+
+    depends_on = [var.key_pairs]
+}
 
 resource "local_file" "ansible_inventory" {
   filename = "${path.module}/../../../ansible/cluster_hosts.ini"
@@ -41,4 +46,14 @@ resource "local_file" "ansible_inventory" {
   })
 
   depends_on = [aws_instance.NatSrv, aws_instance.cluster_host, var.nat_dns_entries]
+}
+
+resource "local_file" "ssh_private_key" {
+  count    = length(var.key_pairs)
+  filename = "${path.module}/../../export/${var.key_pairs[count.index].key_name}/ssh_connection_string.txt"
+  content  = templatefile("${path.module}/ssh_connection_string.tpl", {
+    ssh_key = var.key_pairs[count.index].key_name
+    client_name = var.key_pairs[count.index].key_name
+    public_fqdn = var.nat_dns_entries[0]
+  })
 }
