@@ -234,7 +234,7 @@ resource "aws_route53_record" "nat_dns_entries" {
 }
 
 resource "local_file" "dns_entries" {
-  filename = "${path.module}/../../../ansible/${var.environment}-dns_entries.yml"
+  filename = "${path.module}/../../../ansible/dns_entries.yml"
   content = yamlencode({
     dns_entries   = local.dns_entries
   })
