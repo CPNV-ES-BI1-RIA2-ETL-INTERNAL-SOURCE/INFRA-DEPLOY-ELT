@@ -1,6 +1,6 @@
 module "network" {
   source = "./modules/network"
-  environment = var.environment
+  environment = local.environment
   dmz_subnet = var.dmz_subnet
   private_subnets = var.private_subnets
   vpc = var.vpc
@@ -12,7 +12,7 @@ module "network" {
 
 module "instances" {
   source = "./modules/instances"
-  environment = var.environment
+  environment = local.environment
   private_subnets = var.private_subnets
   natsrv_private_ip = module.network.natsrv_private_ip
   vpc_id = module.network.vpc_id
@@ -30,5 +30,5 @@ module "instances" {
 // output key pairs (key_name, public_key and private_key)
 module "ssh-key-pairs" {
   source = "./modules/ssh-key-pairs"
-  sshkey_list = [ for subnet in var.private_subnets : "${subnet.subnet_name}-${var.environment}"] // List of string that will be our key name
+  sshkey_list = [ for subnet in var.private_subnets : "${subnet.subnet_name}-${local.environment}"] // List of string that will be our key name
 }

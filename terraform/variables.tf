@@ -79,8 +79,6 @@ variable "route53_tld" {
     description = "The top-level domain for the Route 53 hosted zone"
 }
 
-variable "environment" {
-    type        = string
-    default     = "dev"
-    description = "Environment"
+locals {
+    environment = terraform.workspace
 }
