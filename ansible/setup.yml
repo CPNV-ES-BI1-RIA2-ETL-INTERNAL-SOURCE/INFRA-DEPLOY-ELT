@@ -16,5 +16,5 @@
     - name: Setting up the cluster servers
       block:
         - include_tasks: tasks/docker.yml
-        - include_tasks: tasks/nginx.yml
+        - include_tasks: tasks/backend.yml
       when: "'cluster_hosts' in group_names"
