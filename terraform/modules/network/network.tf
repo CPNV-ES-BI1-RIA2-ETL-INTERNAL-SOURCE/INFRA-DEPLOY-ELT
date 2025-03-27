@@ -182,6 +182,19 @@ resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_ht
   description       = "HTTPS access from the nat server (reverse proxy)"
 }
 
+
+# Allow quicksight - https://docs.aws.amazon.com/quicksight/latest/user/regions-qs.html
+resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_quicksight" {
+  count = length(var.private_subnets)
+  security_group_id = aws_security_group.private_subnet_sg[count.index].id
+  cidr_ipv4         = "35.158.127.192/27" // eu-central-1
+  from_port         = 3306
+  ip_protocol       = "tcp"
+  to_port           = 3306
+  description       = "MySQL access from the nat server"
+}
+
+
 resource "aws_vpc_security_group_egress_rule" "dmz_egress_rules" {
   security_group_id = aws_security_group.dmz_subnet_sg.id
   cidr_ipv4         = "0.0.0.0/0"
