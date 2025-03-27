@@ -44,6 +44,6 @@ This will automatically :
 
 ```bash
 cd ./ansible
-ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm --extra-vars "env=<Terraform environment>"
+ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm
 ```
 *This does not support deployment of your specific application*
