@@ -12,7 +12,7 @@ resource "aws_subnet" "DMZ" {
   cidr_block = var.dmz_subnet["cidr_block"]
 
   tags = {
-    Name = var.dmz_subnet["subnet_name"]
+    Name = "${var.dmz_subnet["subnet_name"]}-${var.environment}"
   }
 
   depends_on = [aws_vpc.main_vpc]
@@ -25,7 +25,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = var.private_subnets[count.index]["cidr_block"]
 
   tags = {
-    Name = var.private_subnets[count.index]["subnet_name"]
+    Name = "${var.private_subnets[count.index]["subnet_name"]}-${var.environment}"
   }
 
   depends_on = [aws_vpc.main_vpc]
@@ -38,7 +38,7 @@ resource "aws_internet_gateway" "igw" {
   depends_on = [aws_vpc.main_vpc]
 
   tags = {
-    Name = var.igw_name
+    Name = "${var.igw_name}-${var.environment}"
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_route_table" "dmz_route_table" {
   depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "RT-${var.dmz_subnet["subnet_name"]}"
+    Name = "RT-${var.dmz_subnet["subnet_name"]}-${var.environment}"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_route_table" "private_subnet_routes" {
   depends_on = [var.NatSrv_primary_network_interface_id]
 
   tags = {
-    Name = "RT-${var.private_subnets[count.index]["subnet_name"]}"
+    Name = "RT-${var.private_subnets[count.index]["subnet_name"]}-${var.environment}"
   }
 }
 
@@ -99,7 +99,7 @@ resource "aws_security_group" "dmz_subnet_sg" {
   vpc_id      = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "${var.dmz_subnet["subnet_name"]}-sg"
+    Name = "${var.dmz_subnet["subnet_name"]}-${var.environment}-sg"
   }
 }
 
@@ -111,7 +111,7 @@ resource "aws_security_group" "private_subnet_sg" {
   vpc_id      = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "${var.private_subnets[count.index]["subnet_name"]}-sg"
+    Name = "${var.private_subnets[count.index]["subnet_name"]}-${var.environment}-sg"
   }
 }
 

@@ -5,7 +5,7 @@ resource "aws_instance" "NatSrv" {
     private_ip    = var.natsrv_private_ip
 
     tags = {
-        Name = "NatSrv"
+        Name = "NatSrv-${var.environment}"
     }
     
     key_name = "ria2_sysadm"
