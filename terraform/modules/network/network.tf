@@ -12,7 +12,7 @@ resource "aws_subnet" "DMZ" {
   cidr_block = var.dmz_subnet["cidr_block"]
 
   tags = {
-    Name = var.dmz_subnet["subnet_name"]
+    Name = "${var.dmz_subnet["subnet_name"]}-${var.environment}"
   }
 
   depends_on = [aws_vpc.main_vpc]
@@ -25,7 +25,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = var.private_subnets[count.index]["cidr_block"]
 
   tags = {
-    Name = var.private_subnets[count.index]["subnet_name"]
+    Name = "${var.private_subnets[count.index]["subnet_name"]}-${var.environment}"
   }
 
   depends_on = [aws_vpc.main_vpc]
@@ -38,7 +38,7 @@ resource "aws_internet_gateway" "igw" {
   depends_on = [aws_vpc.main_vpc]
 
   tags = {
-    Name = var.igw_name
+    Name = "${var.igw_name}-${var.environment}"
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_route_table" "dmz_route_table" {
   depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "RT-${var.dmz_subnet["subnet_name"]}"
+    Name = "RT-${var.dmz_subnet["subnet_name"]}-${var.environment}"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_route_table" "private_subnet_routes" {
   depends_on = [var.NatSrv_primary_network_interface_id]
 
   tags = {
-    Name = "RT-${var.private_subnets[count.index]["subnet_name"]}"
+    Name = "RT-${var.private_subnets[count.index]["subnet_name"]}-${var.environment}"
   }
 }
 
@@ -99,7 +99,7 @@ resource "aws_security_group" "dmz_subnet_sg" {
   vpc_id      = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "${var.dmz_subnet["subnet_name"]}-sg"
+    Name = "${var.dmz_subnet["subnet_name"]}-${var.environment}-sg"
   }
 }
 
@@ -111,7 +111,7 @@ resource "aws_security_group" "private_subnet_sg" {
   vpc_id      = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "${var.private_subnets[count.index]["subnet_name"]}-sg"
+    Name = "${var.private_subnets[count.index]["subnet_name"]}-${var.environment}-sg"
   }
 }
 
@@ -181,6 +181,19 @@ resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_ht
   to_port           = 443
   description       = "HTTPS access from the nat server (reverse proxy)"
 }
+
+
+# Allow quicksight - https://docs.aws.amazon.com/quicksight/latest/user/regions-qs.html
+resource "aws_vpc_security_group_ingress_rule" "private_subnets_ingress_rules_quicksight" {
+  count = length(var.private_subnets)
+  security_group_id = aws_security_group.private_subnet_sg[count.index].id
+  cidr_ipv4         = "35.158.127.192/27" // eu-central-1
+  from_port         = 3306
+  ip_protocol       = "tcp"
+  to_port           = 3306
+  description       = "MySQL access from the nat server"
+}
+
 
 resource "aws_vpc_security_group_egress_rule" "dmz_egress_rules" {
   security_group_id = aws_security_group.dmz_subnet_sg.id

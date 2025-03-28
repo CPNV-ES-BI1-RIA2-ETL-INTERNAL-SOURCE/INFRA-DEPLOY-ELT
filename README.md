@@ -23,7 +23,7 @@ terraform workspace select <workspace_name>
 terraform init
 terraform apply
 ```
-The `environment` is use to separate the env. dev, prod, and integration (for example). It will add the value to the VPC name. The default value is `dev`.
+The workspace is used for the environment name. It will be added to the VPC name.
 ## Ansible
 > Version used : [ansible core 2.14.16](https://docs.ansible.com/ansible/latest/roadmap/ROADMAP_2_14.html), [python 3.11.2](https://www.python.org/downloads/release/python-3112/) <br>
 > WSL : Debian 12 (bookworm)
@@ -44,5 +44,6 @@ This will automatically :
 
 ```bash
 cd ./ansible
-ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm --extra-vars "env=<Terraform environment> git_token=***"
+ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/ria2_sysadm
 ```
+*This does not support deployment of your specific application*
