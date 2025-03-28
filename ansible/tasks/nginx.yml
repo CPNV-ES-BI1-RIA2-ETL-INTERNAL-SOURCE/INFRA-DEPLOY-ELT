@@ -1,0 +1,29 @@
+---
+- set_fact:
+    nginx_container_name: nginx-container 
+    nginx_image: nginx:latest
+    nginx_port: 80 
+    
+- name: Ensure Docker service is started
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Pull Nginx image
+  command: docker pull {{ nginx_image }}
+
+- name: Remove existing container
+  shell: "docker rm -f {{ nginx_container_name }}"
+  ignore_errors: no
+
+- name: Run Nginx container
+  shell: "docker run --name {{ nginx_container_name }} -d -p {{ nginx_port }}:80 -p 443:443 {{ nginx_image }}"
+
+- name: Check Nginx container status
+  shell: "docker inspect -f '{{ '{{' }} .State.Status {{ '}}' }}' {{ nginx_container_name }}"
+  register: container_status
+
+- name: Show Nginx container status
+  debug:
+    msg: "Nginx container is running: {{ container_status.stdout }}"
