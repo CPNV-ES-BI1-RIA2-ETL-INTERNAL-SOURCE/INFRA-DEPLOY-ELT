@@ -127,9 +127,8 @@ resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_ssh" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_http" {
-  count = length(var.allowed_ips)
   security_group_id = aws_security_group.dmz_subnet_sg.id
-  cidr_ipv4         = var.allowed_ips[count.index]
+  cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
@@ -137,9 +136,8 @@ resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_http" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "dmz_ingress_rules_https" {
-  count = length(var.allowed_ips)
   security_group_id = aws_security_group.dmz_subnet_sg.id
-  cidr_ipv4         = var.allowed_ips[count.index]
+  cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443
   ip_protocol       = "tcp"
   to_port           = 443

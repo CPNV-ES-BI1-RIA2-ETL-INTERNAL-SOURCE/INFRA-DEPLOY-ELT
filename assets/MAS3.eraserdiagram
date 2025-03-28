@@ -35,8 +35,8 @@ AWS-VPC [icon: aws-vpc, color: blue, label: "AWS VPC - 10.0.0.0/16"]{
   }
 }
 
-CPNV -- NatSrv: ">>22,80,443"
-// everywhere -- NatSrv: ">>80,443"
+CPNV -- NatSrv: ">>22"
+everywhere -- NatSrv: ">>80,443"
 NatSrv -- sub1, sub2: ">>22"
 ReverseProxy -> host-sub1: ">>80"
 ReverseProxy -> host-sub2: ">>80"
